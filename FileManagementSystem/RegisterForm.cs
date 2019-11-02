@@ -20,6 +20,39 @@ namespace FileManagementSystem
         private void createAccountButton_Click(object sender, EventArgs e)
         {
 
+
+
+            DatabaseConnections addAdmin = new DatabaseConnections();
+
+
+
+        
+
+
+
+
+
+
+
+            addAdmin.CreateAdmin(usernameTextBox.Text, emailTextBox.Text, firstNameTextBox.Text, lastNameTextBox.Text, passwordTextBox.Text, securityQuestionComboBox.Text, securityAnswerTextbox.Text);
+
+
+           
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            passwordTextBox.PasswordChar = '*';
+        }
+
+        private void securityAnswerTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
