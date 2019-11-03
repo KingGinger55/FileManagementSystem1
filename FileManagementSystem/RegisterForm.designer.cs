@@ -1,4 +1,6 @@
-﻿namespace FileManagementSystem
+﻿using System;
+
+namespace FileManagementSystem
 {
     partial class RegisterForm
     {
@@ -69,6 +71,7 @@
             this.retypePassTextBox.Name = "retypePassTextBox";
             this.retypePassTextBox.Size = new System.Drawing.Size(321, 31);
             this.retypePassTextBox.TabIndex = 3;
+            this.retypePassTextBox.TextChanged += new System.EventHandler(this.retypePassTextBox_TextChanged);
             // 
             // passwordTextBox
             // 
@@ -243,6 +246,18 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+           
+            // The password character is an asterisk.
+            passwordTextBox.PasswordChar = '*';
         }
 
         #endregion
