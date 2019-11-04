@@ -24,7 +24,7 @@ namespace FileManagementSystem
         private int securityAnswerError;
         private int closeWindow;
         
-        //Database connection Class, for performin queries on the DB
+        //Database connection Class, for performing queries on the DB
         DatabaseConnection database = new DatabaseConnection();
 
 
@@ -35,10 +35,15 @@ namespace FileManagementSystem
 
         private void createAccountButton_Click(object sender, EventArgs e)
         {
-                //Creates an admin from the registration form, this will need to be modified so that all users arent admins (found in databaseConnection class)
-                database.CreateAdmin(usernameTextBox.Text, emailTextBox.Text, firstNameTextBox.Text, lastNameTextBox.Text, passwordTextBox.Text, retypePassTextBox.Text, securityQuestionComboBox.Text, securityAnswerTextbox.Text);
-                getRegisterErrors();
+            //Creates an admin from the registration form, this will need to be modified so that all users arent admins (found in databaseConnection class)
+            database.CreateUser(usernameTextBox.Text, emailTextBox.Text, firstNameTextBox.Text, lastNameTextBox.Text, passwordTextBox.Text, retypePassTextBox.Text, securityQuestionComboBox.Text, securityAnswerTextbox.Text);
 
+
+            //This method updates the class variables above, if the variables contain a 1 then the text field related to the variable is highlighted.
+            getRegisterErrors();
+
+
+            //Text field error checking
             if (userNameError == 1)
             {
                 usernameTextBox.BackColor = System.Drawing.Color.Salmon;
@@ -68,26 +73,23 @@ namespace FileManagementSystem
             {
                 securityAnswerTextbox.BackColor = System.Drawing.Color.Salmon;
             }
+            //Closes the register form upon successful admin creation
             if(closeWindow == 1)
             {
                 this.Close();
             }
-
-
-           
-
-
         }
 
+        
         private void retypePassTextBox_TextChanged(object sender, EventArgs e)
         {
          
-            // The password character is an asterisk.
+            //The password character is displayed as an asterisk.
             retypePassTextBox.PasswordChar = '*';
         }
 
 
-
+        //This method updates the class variables above, if the variables contain a 1 then the text field related to the variable is highlighted.
         private void getRegisterErrors()
         {
             userNameError = database.userNameError;
