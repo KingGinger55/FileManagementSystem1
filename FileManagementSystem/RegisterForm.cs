@@ -22,6 +22,8 @@ namespace FileManagementSystem
         private int confirmPasswordError;
         private int securityQuestionError;
         private int securityAnswerError;
+        private int closeWindow;
+        
         //Database connection Class, for performin queries on the DB
         DatabaseConnection database = new DatabaseConnection();
 
@@ -33,44 +35,46 @@ namespace FileManagementSystem
 
         private void createAccountButton_Click(object sender, EventArgs e)
         {
-
-          
-              
-
                 //Creates an admin from the registration form, this will need to be modified so that all users arent admins (found in databaseConnection class)
                 database.CreateAdmin(usernameTextBox.Text, emailTextBox.Text, firstNameTextBox.Text, lastNameTextBox.Text, passwordTextBox.Text, retypePassTextBox.Text, securityQuestionComboBox.Text, securityAnswerTextbox.Text);
                 getRegisterErrors();
 
             if (userNameError == 1)
             {
-                usernameTextBox.BackColor = System.Drawing.Color.LightYellow;
+                usernameTextBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (fNameError == 1)
             {
-                firstNameTextBox.BackColor = System.Drawing.Color.LightYellow;
+                firstNameTextBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (lNameError == 1)
             {
-                lastNameTextBox.BackColor = System.Drawing.Color.LightYellow;
+                lastNameTextBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (emailError == 1)
             {
-                emailTextBox.BackColor = System.Drawing.Color.LightYellow;
+                emailTextBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (passwordError == 1 || confirmPasswordError == 1)
             {
-                passwordTextBox.BackColor = System.Drawing.Color.LightYellow;
-                retypePassTextBox.BackColor = System.Drawing.Color.LightYellow;
+                passwordTextBox.BackColor = System.Drawing.Color.Salmon;
+                retypePassTextBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (securityQuestionError == 1)
             {
-                securityQuestionComboBox.BackColor = System.Drawing.Color.LightYellow;
+                securityQuestionComboBox.BackColor = System.Drawing.Color.Salmon;
             }
             if (securityAnswerError == 1)
             {
-                securityAnswerTextbox.BackColor = System.Drawing.Color.LightYellow;
+                securityAnswerTextbox.BackColor = System.Drawing.Color.Salmon;
+            }
+            if(closeWindow == 1)
+            {
+                this.Close();
             }
 
+
+           
 
 
         }
@@ -94,7 +98,9 @@ namespace FileManagementSystem
             confirmPasswordError = database.confirmPasswordError;
             securityQuestionError = database.securityQuestionError;
             securityAnswerError = database.securityAnswerError;
+            closeWindow = database.closeWindow;
         }
+
     }
 
 }
