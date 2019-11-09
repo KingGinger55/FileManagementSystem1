@@ -18,9 +18,8 @@ namespace FileManagementSystem
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-
+            Application.Run(new MainMenuForm());//Test
             Application.Run(new LoginForm());
-            //Application.Run(new Form1());
         }
     }
 }
