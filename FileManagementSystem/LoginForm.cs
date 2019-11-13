@@ -14,6 +14,10 @@ namespace FileManagementSystem
 {
     public partial class LoginForm : Form
     {
+
+        
+
+
         public LoginForm()
         {
             InitializeComponent();
@@ -40,6 +44,41 @@ namespace FileManagementSystem
         private void LoginButton_Click(object sender, EventArgs e)
         {
 
+            String userName = userNameTextBox.Text;
+            String password = passwordTextBox.Text;
+
+
+
+            DatabaseConnection database = new DatabaseConnection();
+            database.Login(userName, password);
+            if (database.loginSuccess == true)
+            {
+                this.Close();
+            }
+      
+            
+            
+
+
+
+
+
+
+
+
+
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // The password character is an asterisk.
+            passwordTextBox.PasswordChar = '*';
         }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Windows.Forms;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
+/// <summary>
+/// The DatabaseConnection class encompasses all queries that will be made on the database. 
+/// </summary>
 public class DatabaseConnection
 {
     //Registration fields for highlighting the registration form in th event that theres improper input. Set to 1 if theres an error.  
@@ -17,7 +21,12 @@ public class DatabaseConnection
     public int validationStatus;
     public int authStatus;
     public int closeWindow = 0;
-   
+    public bool loginSuccess = false;
+
+
+
+    Stack pulledData = new Stack();
+
 
 
     // Reference to the local host
@@ -25,12 +34,12 @@ public class DatabaseConnection
     //Creates a database connection with mysqlconnectionstring
     static MySqlConnection databaseConnection = new MySqlConnection(mySQLConnectionString);
 
-
+    
  
 
 
-
-    //Account type defaults to a normal unless specified as admin/superUser in the optional accountType parameter
+  
+    ///Creates a new user in the database.  Account type defaults to a normal unless specified as admin/superUser in the optional accountType parameter.
     public void CreateUser(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer, String accountType = "")
     {
         this.validationStatus = ValidateNewAccount(userName, email);
@@ -55,7 +64,7 @@ public class DatabaseConnection
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), '{accountType}', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
 
-            executeQuery(query, "It Works");
+            ExecuteQuery(query, "It Works");
         }
     }
 
@@ -63,7 +72,7 @@ public class DatabaseConnection
 
 
 
-    //Sets public fields so that the form can highlight any inproper inputs  
+    ///Sets public fields so that the form can highlight any inproper inputs  
     private int AuthenticateRegistrationForm(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer)
     {
         //If this method passes all checks returns 0
@@ -123,7 +132,7 @@ public class DatabaseConnection
 
 
 
-    //Checks the database for a previously existing account.  If the Username/Email already exists, this method will return a 1 and a message box for each field.
+    ///Checks the database for a previously existing account.  If the Username/Email already exists, this method will return a 1 and a message box for each field.
     private int ValidateNewAccount(String userName, String email)
     {
         //Need to find a way to hide the encryption key for AES_ENCRYPT() mysql function.
@@ -135,8 +144,8 @@ public class DatabaseConnection
 
         MySqlCommand commandDatabase = new MySqlCommand(query1, databaseConnection);
         commandDatabase.CommandTimeout = 60;
-        containsUserName = executeQuery(query1);
-        containsEmail = executeQuery(query2);
+        containsUserName = ExecuteQuery(query1);
+        containsEmail = ExecuteQuery(query2);
 
 
         int containsStaus = containsEmail + containsUserName;
@@ -145,8 +154,9 @@ public class DatabaseConnection
 
 
 
-    //Input query as a string, the message is a resulting message box with text. If an empty string is entered no message will show.  Returns 0 unless the query returns data, then it returns a 1;
-    private int executeQuery(String query, String  optionalMessage = "")
+    ///Input query as a string, the message is a resulting message box with text. If an empty string is entered no message will show.  
+    ///Returns 0 unless the query returns data, then it returns a 1;
+    private int ExecuteQuery(String query, String  optionalMessage = "")
     {
         int containsData = 0;
         MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
@@ -155,22 +165,30 @@ public class DatabaseConnection
         {
             databaseConnection.Open();
             MySqlDataReader myReader = commandDatabase.ExecuteReader();
-
+          
             if (myReader.HasRows)
             {
                 containsData = 1;
+
+          
+               
+
                 while (myReader.Read())
                 {
-                    //Console.WriteLine(myReader.GetString(0) + "-" + myReader.GetString(1) + "-" + myReader.GetString(2) + "-" + myReader.GetString(3));
-                    
+                    //Console.WriteLine(myReader.GetString(0));
+                    //MessageBox.Show(myReader.GetString(0) + " Login successful!");
+
+
                 }
                 
             }
-            if(optionalMessage != "")
+           if(optionalMessage != "")
             {
                 MessageBox.Show(optionalMessage);
                 closeWindow = 1;
             }
+               
+            
         }
         catch (Exception e)
         {
@@ -180,6 +198,60 @@ public class DatabaseConnection
         databaseConnection.Close();
 
         return containsData;
+    }
+
+
+
+
+
+
+
+
+    public bool Login(String userName, String password)
+    {
+        String query;
+        
+
+
+
+        query = $"SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('{password}', 'encryptKey') AND userName = '{userName}'";
+        //SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('yyyyyyyyyyyyy', 'encryptKey')
+
+        MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
+        commandDatabase.CommandTimeout = 60;
+        try
+        {
+            databaseConnection.Open();
+            MySqlDataReader myReader = commandDatabase.ExecuteReader();
+
+            if (myReader.HasRows)
+            {
+
+                while (myReader.Read())
+                {
+                    if (myReader.GetString(0) == userName)
+                    {
+                        MessageBox.Show(myReader.GetString(0) + " Login successful!");
+                        this.loginSuccess = true;
+                        
+                    }
+                    else
+                    {
+                        this.loginSuccess = false;
+                    }
+                    //Console.WriteLine(myReader.GetString(0));
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            MessageBox.Show((String)e.Message);
+        }
+        databaseConnection.Close();
+
+        return loginSuccess;
     }
 }
 
