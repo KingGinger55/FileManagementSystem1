@@ -32,9 +32,10 @@ namespace FileManagementSystem
         {
             var RegisterScreen = new RegisterForm();
             RegisterScreen.Show();
-            
+            Console.Write("owo");
+            Console.Write("uwu");
 
-           
+        
 
 
 
