@@ -13,6 +13,11 @@ namespace FileManagementSystem
 {
     public partial class MainMenuForm : Form
     {
+        User userAccount;
+
+
+
+
         public MainMenuForm()
         {
             InitializeComponent();
@@ -32,6 +37,32 @@ namespace FileManagementSystem
         private void uploadButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void profileButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public void getAccountInformation(User userAccount)
+        {
+            this.userAccount = userAccount;
+            MessageBox.Show("Main menu received user account!");
+        }
+
+        private void fileViewer_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            
         }
     }
 }
