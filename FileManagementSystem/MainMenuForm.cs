@@ -16,7 +16,9 @@ namespace FileManagementSystem
         public MainMenuForm()
         {
             InitializeComponent();
-            fileViewer.Url = new Uri("C:\\DSDB");
+
+            //This works now, you need to add DSDB to your C drive and then place some folders in it and youll be able to see them in the application
+            fileViewer.Url = new Uri("C:/DSDB");
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -25,6 +27,11 @@ namespace FileManagementSystem
             //For now we can search for specific file paths and it breaks if they are wrong
             //We want to use the top commented line, or some variation on it, to find all the files that may fit the search and show them
             fileViewer.Url = new Uri(textBox1.Text);
+        }
+
+        private void uploadButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -21,11 +21,12 @@ public class DatabaseConnection
     public int validationStatus;
     public int authStatus;
     public int closeWindow = 0;
+    public int loginError;
     public bool loginSuccess = false;
 
 
 
-    Stack pulledData = new Stack();
+    
 
 
 
@@ -207,18 +208,20 @@ public class DatabaseConnection
 
 
 
-    public bool Login(String userName, String password)
+    public ArrayList Login(String userName, String password)
     {
         String query;
         
 
 
 
-        query = $"SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('{password}', 'encryptKey') AND userName = '{userName}'";
+        query = $"SELECT * FROM useraccount WHERE password = AES_ENCRYPT('{password}', 'encryptKey') AND userName = '{userName}'";
         //SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('yyyyyyyyyyyyy', 'encryptKey')
 
         MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
         commandDatabase.CommandTimeout = 60;
+
+        ArrayList userInfo = new ArrayList();
         try
         {
             databaseConnection.Open();
@@ -226,22 +229,32 @@ public class DatabaseConnection
 
             if (myReader.HasRows)
             {
-
+                
                 while (myReader.Read())
                 {
-                    if (myReader.GetString(0) == userName)
+                    if (myReader.GetString(1) == userName)
                     {
-                        MessageBox.Show(myReader.GetString(0) + " Login successful!");
+                        MessageBox.Show(myReader.GetString(1) + " Login successful!");
                         this.loginSuccess = true;
-                        
+
                     }
                     else
                     {
                         this.loginSuccess = false;
+                       
                     }
                     //Console.WriteLine(myReader.GetString(0));
                 }
 
+                for (int i = 0; i < 9; i++)
+                {
+                    userInfo.Add(Convert.ToString(myReader[i]));
+                }
+
+            }
+            if (this.loginSuccess == false)
+            {
+                this.loginError = 1;
             }
         }
         catch (Exception e)
@@ -251,7 +264,7 @@ public class DatabaseConnection
         }
         databaseConnection.Close();
 
-        return loginSuccess;
+        return userInfo;
     }
 }
 
