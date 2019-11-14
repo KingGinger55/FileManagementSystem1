@@ -20,10 +20,19 @@ namespace FileManagementSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            LoginForm login = new LoginForm();
+            MainMenuForm mainMenu = new MainMenuForm();
 
-           
-            Application.Run(new LoginForm());
-            Application.Run(new MainMenuForm());
+
+
+
+
+
+
+            Application.Run(login);
+            mainMenu.getAccountInformation(login.pushUser());
+            Application.Run(mainMenu);
+            
         }
     }
 }

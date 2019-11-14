@@ -15,9 +15,10 @@ namespace FileManagementSystem
 {
     public partial class LoginForm : Form
     {
-
+        ArrayList userData;
 
         DatabaseConnection database = new DatabaseConnection();
+        User userAccount;
 
         public LoginForm()
         {
@@ -49,7 +50,7 @@ namespace FileManagementSystem
 
             String userName = userNameTextBox.Text;
             String password = passwordTextBox.Text;
-            ArrayList userInfo = database.Login(userName, password);
+            userData = database.Login(userName, password);
 
 
 
@@ -58,9 +59,9 @@ namespace FileManagementSystem
             
             if (database.loginSuccess == true)
             {
-                for (int i =0; i < userInfo.Count; i++)
+                for (int i =0; i < userData.Count; i++)
                 {
-                    Console.WriteLine(userInfo[i]);
+                    Console.WriteLine(userData[i]);
                 }
                 this.Close();
             }
@@ -73,11 +74,24 @@ namespace FileManagementSystem
                 passwordTextBox.BackColor = Color.Salmon;
             }
 
+
+            try
+            {
+                userAccount = new User((int)userData[0], (String)userData[1], (String)userData[2], (String)userData[3], (String)userData[4], (String)userData[6]);
+            }
+            catch (Exception c)
+            {
+                //MessageBox.Show(c.Message);
+            }
+
         }
 
 
 
-
+        public User pushUser()
+        {
+            return this.userAccount;
+        }
 
 
 
