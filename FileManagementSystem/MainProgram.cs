@@ -23,10 +23,7 @@ namespace FileManagementSystem
 
            
             Application.Run(new LoginForm());
-           
-
-
-            Application.Run(new MainMenuForm());//Test
+            Application.Run(new MainMenuForm());
         }
     }
 }

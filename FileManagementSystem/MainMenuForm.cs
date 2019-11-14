@@ -17,7 +17,7 @@ namespace FileManagementSystem
         {
             InitializeComponent();
 
-            //This works now, you need to add DSDB to your C drive and then place some folders in it and youll be able to see them in the application
+            //This works now, you need to add DSDB to your C drive and then place some folders in it and youll be able to see them in the applications file viewer
             fileViewer.Url = new Uri("C:/DSDB");
         }
 

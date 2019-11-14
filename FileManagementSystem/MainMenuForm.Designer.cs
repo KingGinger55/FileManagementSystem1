@@ -39,6 +39,7 @@
             // 
             // searchButton
             // 
+            this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.searchButton.Location = new System.Drawing.Point(1018, 106);
             this.searchButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.searchButton.Name = "searchButton";
@@ -61,7 +62,7 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(390, 175);
+            this.deleteButton.Location = new System.Drawing.Point(217, 100);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(112, 36);
@@ -71,7 +72,7 @@
             // 
             // profileButton
             // 
-            this.profileButton.Location = new System.Drawing.Point(24, 648);
+            this.profileButton.Location = new System.Drawing.Point(24, 27);
             this.profileButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.profileButton.Name = "profileButton";
             this.profileButton.Size = new System.Drawing.Size(112, 36);
@@ -81,15 +82,19 @@
             // 
             // fileViewer
             // 
-            this.fileViewer.Location = new System.Drawing.Point(512, 175);
+            this.fileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileViewer.Location = new System.Drawing.Point(24, 175);
             this.fileViewer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.fileViewer.MinimumSize = new System.Drawing.Size(30, 31);
             this.fileViewer.Name = "fileViewer";
-            this.fileViewer.Size = new System.Drawing.Size(620, 494);
+            this.fileViewer.Size = new System.Drawing.Size(1108, 494);
             this.fileViewer.TabIndex = 4;
             // 
             // textBox1
             // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(639, 108);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Name = "textBox1";
@@ -99,6 +104,7 @@
             // 
             // searchLabel
             // 
+            this.searchLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.searchLabel.AutoSize = true;
             this.searchLabel.Location = new System.Drawing.Point(507, 111);
             this.searchLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
