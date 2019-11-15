@@ -24,6 +24,11 @@ namespace FileManagementSystem
             InitializeComponent();
             this.userAccount = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5]);
             Console.WriteLine(userAccount.userName);
+            fileViewer.Url = new Uri("C:/DSDB");
+
+
+
+
             //This works now, you need to add DSDB to your C drive and then place some folders in it and youll be able to see them in the applications file viewer
         }
 

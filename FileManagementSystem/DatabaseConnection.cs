@@ -104,21 +104,30 @@ public class DatabaseConnection
     public static void CreateUser(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer, String accountType = "")
     {
 
-            string query;
+            string createUser;
 
             //Empty string for the parameter accountType creates a normal user, otherwise they are the specified accountType
             if (accountType == "")
             {
-                query = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
+                createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), 'user', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
             else
             {
-                query = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
+                createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), '{accountType}', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
 
-            ExecuteQuery(query, "User successfuly created!");
+            ExecuteQuery(createUser, "User successfuly created!");
+
+
+        string createUserFolder = $"INSERT INTO `folder`(folderName, ownerUID) SELECT userName, uID FROM useraccount WHERE userName = '{userName}'";
+        ExecuteQuery(createUserFolder);
+        System.IO.Directory.CreateDirectory($"C:/DSDB/{userName}");
+
+
+
+
 
     }
 
