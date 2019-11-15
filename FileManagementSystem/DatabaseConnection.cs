@@ -10,23 +10,14 @@ using MySql.Data.MySqlClient;
 public class DatabaseConnection
 {
     //Registration fields for highlighting the registration form in th event that theres improper input. Set to 1 if theres an error.  
-    public int userNameError;
-    public int fNameError;
-    public int lNameError;
-    public int emailError;
-    public int passwordError;
-    public int confirmPasswordError;
-    public int securityQuestionError;
-    public int securityAnswerError;
-    public int validationStatus;
-    public int authStatus;
-    public int closeWindow = 0;
-    public int loginError;
+   
+   
+
     public bool loginSuccess = false;
 
 
 
-    
+
 
 
 
@@ -35,22 +26,84 @@ public class DatabaseConnection
     //Creates a database connection with mysqlconnectionstring
     static MySqlConnection databaseConnection = new MySqlConnection(mySQLConnectionString);
 
-    
- 
 
 
-  
-    ///Creates a new user in the database.  Account type defaults to a normal unless specified as admin/superUser in the optional accountType parameter.
-    public void CreateUser(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer, String accountType = "")
+
+
+
+
+    //Updates to old code
+    //=======================================================================================================================================================================================================
+
+    //Update to login, returns user info if login success and an empty arrray list if false
+    public static String[] Login(String userName, String password)
     {
-        this.validationStatus = ValidateNewAccount(userName, email);
-        authStatus = AuthenticateRegistrationForm(userName, email, fName, lName, password, confirmPassword, securityQuestion, securityQuestionAnswer);
+        String query;
+        int loginError = 0;
 
+        bool loginSuccess = false;
 
-        if (validationStatus == 0 && authStatus == 0)
+        query = $"SELECT * FROM useraccount WHERE password = AES_ENCRYPT('{password}', 'encryptKey') AND userName = '{userName}'";
+        //SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('yyyyyyyyyyyyy', 'encryptKey')
+
+        MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
+        commandDatabase.CommandTimeout = 60;
+
+        String[] userInfo = new String[9];
+        try
         {
+            databaseConnection.Open();
+            MySqlDataReader myReader = commandDatabase.ExecuteReader();
 
-            //Need to find a way to hide the encryption key for AES_ENCRYPT() mysql function.
+            if (myReader.HasRows)
+            {
+
+                while (myReader.Read())
+                {
+                    if (myReader.GetString(1) == userName)
+                    {
+                        MessageBox.Show(myReader.GetString(1) + "'s Account" + " Login Successful!");
+                        loginSuccess = true;
+                       
+                    }
+                    else
+                    {
+                        databaseConnection.Close();
+                        loginSuccess = false;
+
+                    }
+                    //Console.WriteLine(myReader.GetString(0));
+                }
+
+                for (int i = 0; i < 9; i++)
+                {
+                    userInfo[i] = (Convert.ToString(myReader[i]));
+                }
+
+            }
+            if (loginSuccess == false)
+            {
+                databaseConnection.Close();
+                return new string[0];
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            MessageBox.Show((String)e.Message);
+        }
+        databaseConnection.Close();
+
+        return userInfo;
+    }
+
+
+
+
+    ///Creates a new user in the database.  Account type defaults to a normal unless specified as admin/superUser in the optional accountType parameter.
+    public static void CreateUser(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer, String accountType = "")
+    {
+
             string query;
 
             //Empty string for the parameter accountType creates a normal user, otherwise they are the specified accountType
@@ -65,76 +118,69 @@ public class DatabaseConnection
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), '{accountType}', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
 
-            ExecuteQuery(query, "It Works");
-        }
+            ExecuteQuery(query, "User successfuly created!");
+
     }
 
 
 
 
 
-    ///Sets public fields so that the form can highlight any inproper inputs  
-    private int AuthenticateRegistrationForm(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer)
+
+
+
+    ///Returns an integer array with zero in each index of no error is detected.  Returns a 1 in the index if there is an error.
+    ///The layout for the fields are as follows [userName, email, fName, lName, password, confirmPassword, securityQuestion, securityQuestionAnswer]  so if there are no errors the array would look like this[0,0,0,0,0,0,0,0].
+    ///and if there is an error with the email it will look like this[0,1,0,0,0,0,0,0].  This method will eventually need to be updated with regex.  
+    public static int[] AuthenticateRegistrationForm(String userName, String email, String fName, String lName, String password, String confirmPassword, String securityQuestion, String securityQuestionAnswer)
     {
-        //If this method passes all checks returns 0
-        int authState = 0;
-        //These if statement highlight the register form text boxes based off of their class variables state. (I know, this method looks sloppy)
-       if(userName == "" || email == "" || fName == "" || lName == "" || password == "" || confirmPassword == "" || securityQuestion == "" || securityQuestionAnswer == "")
+
+        int[] fieldErrors = { 0, 0, 0, 0, 0, 0, 0, 0};
+
+        String[] authFormErrors = { userName, email, fName, lName, password, confirmPassword, securityQuestion, securityQuestionAnswer };
+
+
+        if (ValidateNewAccount(userName, email) == 1)
         {
-            authState = 1;
+            fieldErrors[0] = 1;
+            fieldErrors[1] = 1;
         }
-       if(this.validationStatus == 1 || this.validationStatus == 2)
+        if (userName == "")
         {
-            this.emailError = 1;
-            this.userNameError = 1;
-            authState = 1;
-        }
-       if(userName == "")
-        {
-            this.userNameError = 1;
-            authState = 1;
+            fieldErrors[0] = 1;
         }
         if (email == "")
         {
-            this.emailError = 1;
-            authState = 1;
+            fieldErrors[1] = 1;
         }
         if (fName == "")
         {
-            this.fNameError = 1;
-            authState = 1;
+            fieldErrors[2] = 1;
         }
         if (lName == "")
         {
-            this.lNameError = 1;
-            authState = 1;
+            fieldErrors[3] = 1;
         }
         if (password == "" || password.Length < 13 || confirmPassword == "" || confirmPassword.Length < 13 || confirmPassword != password)
         {
-            this.passwordError = 1;
-            this.confirmPasswordError = 1;
-            authState = 1;
+            fieldErrors[4] = 1;
+            fieldErrors[5] = 1;
         }
-        if (securityQuestion == "" )
+        if (securityQuestion == "")
         {
-            this.securityQuestionError = 1;
-            authState = 1;
+            fieldErrors[6] = 1;
         }
         if (securityQuestionAnswer == "")
         {
-            this.securityAnswerError = 1;
-            authState = 1;
+            fieldErrors[7] = 1;
         }
-
-        return authState;
+        return fieldErrors;
     }
 
 
 
-
-
-    ///Checks the database for a previously existing account.  If the Username/Email already exists, this method will return a 1 and a message box for each field.
-    private int ValidateNewAccount(String userName, String email)
+    ///Checks the database for a previously existing account.  If the Username/Email already exists, this method will return a 1;
+    private static int ValidateNewAccount(String userName, String email)
     {
         //Need to find a way to hide the encryption key for AES_ENCRYPT() mysql function.
         string query1 = $"SELECT `userName` FROM `useraccount` WHERE `userName` = '{userName}'";
@@ -149,16 +195,40 @@ public class DatabaseConnection
         containsEmail = ExecuteQuery(query2);
 
 
-        int containsStaus = containsEmail + containsUserName;
-        return containsStaus;
+        if (containsUserName == 1 || containsEmail == 1)
+        {
+            if (containsUserName == 1)
+            {
+                MessageBox.Show("Username already exists!");
+            }
+
+            if (containsEmail == 1)
+            {
+                MessageBox.Show("Email already exists!");
+            }
+
+            commandDatabase.Connection.Close();
+            return 1;
+        }
+        else
+        {
+            commandDatabase.Connection.Close();
+            return 0;
+        }
+       
     }
+
 
 
 
     ///Input query as a string, the message is a resulting message box with text. If an empty string is entered no message will show.  
     ///Returns 0 unless the query returns data, then it returns a 1;
-    private int ExecuteQuery(String query, String  optionalMessage = "")
+    ///This method executes the query, so if you were to drop a table in the query it will.  Security precautions need to be implemented with this method.
+    public static int ExecuteQuery(string query, string optionalMessage = "")
     {
+
+        //Creates a database connection with mysqlconnectionstring
+        MySqlConnection databaseConnection = new MySqlConnection(mySQLConnectionString);
         int containsData = 0;
         MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
         commandDatabase.CommandTimeout = 60;
@@ -166,13 +236,10 @@ public class DatabaseConnection
         {
             databaseConnection.Open();
             MySqlDataReader myReader = commandDatabase.ExecuteReader();
-          
+
             if (myReader.HasRows)
             {
                 containsData = 1;
-
-          
-               
 
                 while (myReader.Read())
                 {
@@ -181,15 +248,15 @@ public class DatabaseConnection
 
 
                 }
-                
+
             }
-           if(optionalMessage != "")
+            if (optionalMessage != "")
             {
                 MessageBox.Show(optionalMessage);
-                closeWindow = 1;
+                //closeWindow = 1;
             }
-               
-            
+
+
         }
         catch (Exception e)
         {
@@ -201,70 +268,9 @@ public class DatabaseConnection
         return containsData;
     }
 
-
-
-
-
-
-
-
-    public ArrayList Login(String userName, String password)
-    {
-        String query;
-        
-
-
-
-        query = $"SELECT * FROM useraccount WHERE password = AES_ENCRYPT('{password}', 'encryptKey') AND userName = '{userName}'";
-        //SELECT userName FROM useraccount WHERE password = AES_ENCRYPT('yyyyyyyyyyyyy', 'encryptKey')
-
-        MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
-        commandDatabase.CommandTimeout = 60;
-
-        ArrayList userInfo = new ArrayList();
-        try
-        {
-            databaseConnection.Open();
-            MySqlDataReader myReader = commandDatabase.ExecuteReader();
-
-            if (myReader.HasRows)
-            {
-                
-                while (myReader.Read())
-                {
-                    if (myReader.GetString(1) == userName)
-                    {
-                        MessageBox.Show(myReader.GetString(1) + " Login successful!");
-                        this.loginSuccess = true;
-
-                    }
-                    else
-                    {
-                        this.loginSuccess = false;
-                       
-                    }
-                    //Console.WriteLine(myReader.GetString(0));
-                }
-
-                for (int i = 0; i < 9; i++)
-                {
-                    userInfo.Add(Convert.ToString(myReader[i]));
-                }
-
-            }
-            if (this.loginSuccess == false)
-            {
-                this.loginError = 1;
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            MessageBox.Show((String)e.Message);
-        }
-        databaseConnection.Close();
-
-        return userInfo;
-    }
 }
+
+
+
+
 

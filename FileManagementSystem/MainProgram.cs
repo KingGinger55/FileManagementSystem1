@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace FileManagementSystem
     static class MainProgram
     {
 
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,11 +19,20 @@ namespace FileManagementSystem
         {
 
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+
 
             LoginForm login = new LoginForm();
-            MainMenuForm mainMenu = new MainMenuForm();
+            login.ShowDialog();
+            String[] userData = login.PushData();
+
+            try
+            {
+                Application.Run(new MainMenuForm(userData));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
 
 
@@ -29,10 +40,7 @@ namespace FileManagementSystem
 
 
 
-            Application.Run(login);
-            mainMenu.getAccountInformation(login.pushUser());
-            Application.Run(mainMenu);
-            
         }
     }
+
 }
