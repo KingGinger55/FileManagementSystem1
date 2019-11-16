@@ -14,15 +14,6 @@ namespace FileManagementSystem
 
     public partial class RegisterForm : Form
     {
-        private int userNameError;
-        private int fNameError;
-        private int lNameError;
-        private int emailError;
-        private int passwordError;
-        private int confirmPasswordError;
-        private int securityQuestionError;
-        private int securityAnswerError;
-        private int closeWindow;
 
         //Database connection Class, for performing queries on the DB
         DatabaseConnection database = new DatabaseConnection();

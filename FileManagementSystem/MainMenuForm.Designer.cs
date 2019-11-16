@@ -35,12 +35,14 @@
             this.fileViewer = new System.Windows.Forms.WebBrowser();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
+            this.fileDropDown = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // searchButton
             // 
             this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchButton.Location = new System.Drawing.Point(1018, 106);
+            this.searchButton.Location = new System.Drawing.Point(1018, 48);
             this.searchButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(112, 37);
@@ -98,7 +100,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(640, 108);
+            this.textBox1.Location = new System.Drawing.Point(643, 48);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(356, 31);
@@ -109,18 +111,39 @@
             // 
             this.searchLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.searchLabel.AutoSize = true;
-            this.searchLabel.Location = new System.Drawing.Point(508, 112);
+            this.searchLabel.Location = new System.Drawing.Point(499, 48);
             this.searchLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.searchLabel.Name = "searchLabel";
             this.searchLabel.Size = new System.Drawing.Size(124, 25);
             this.searchLabel.TabIndex = 6;
             this.searchLabel.Text = "Search For:";
             // 
+            // fileDropDown
+            // 
+            this.fileDropDown.FormattingEnabled = true;
+            this.fileDropDown.Location = new System.Drawing.Point(643, 102);
+            this.fileDropDown.Name = "fileDropDown";
+            this.fileDropDown.Size = new System.Drawing.Size(356, 33);
+            this.fileDropDown.TabIndex = 7;
+            this.fileDropDown.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1018, 102);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(112, 33);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Go";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 704);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.fileDropDown);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.fileViewer);
@@ -131,6 +154,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "MainMenuForm";
             this.Text = "Main Menu";
+            this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,5 +169,7 @@
         private System.Windows.Forms.WebBrowser fileViewer;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label searchLabel;
+        private System.Windows.Forms.ComboBox fileDropDown;
+        private System.Windows.Forms.Button button1;
     }
 }
