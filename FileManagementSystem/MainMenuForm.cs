@@ -59,10 +59,5 @@ namespace FileManagementSystem
             this.userAccount = userAccount;
             MessageBox.Show("Main menu received user account!");
         }
-
-        private void fileViewer_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            
-        }
     }
 }

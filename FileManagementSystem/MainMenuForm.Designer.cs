@@ -92,7 +92,6 @@
             this.fileViewer.Name = "fileViewer";
             this.fileViewer.Size = new System.Drawing.Size(587, 257);
             this.fileViewer.TabIndex = 4;
-            this.fileViewer.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.fileViewer_DocumentCompleted);
             // 
             // textBox1
             // 
