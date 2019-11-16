@@ -13,7 +13,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C4DCFC8-FAF6-4AFF-8CAC-73AE33B6F631}"
 	ProjectSection(SolutionItems) = preProject
 		DatabaseConnection.cs = DatabaseConnection.cs
-		User.cs = User.cs
 	EndProjectSection
 EndProject
 Global

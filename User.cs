@@ -2,7 +2,7 @@
 
 public class User
 {
-    public int uID;
+    public String uID;
     public String userName;
     public String email;
     public String fName;
@@ -10,7 +10,7 @@ public class User
     public String accountType;
 
 
-	public User(int uID, String userName, String email, String fName, String lName, String accountType)
+	public User(String uID, String userName, String email, String fName, String lName, String accountType)
 	{
         this.uID = uID;
         this.userName = userName;
@@ -20,6 +20,11 @@ public class User
         this.accountType = accountType;
 	}
 
+
+    public void toString()
+    {
+        Console.WriteLine(uID + " " + userName + " ");
+    }
 
 
 
