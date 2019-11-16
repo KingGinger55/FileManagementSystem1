@@ -15,33 +15,27 @@ namespace FileManagementSystem
 {
     public partial class LoginForm : Form
     {
-        ArrayList userData;
+        private String[] userData;
+
 
         DatabaseConnection database = new DatabaseConnection();
-        User userAccount;
+
 
         public LoginForm()
         {
             InitializeComponent();
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+
         }
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
             var RegisterScreen = new RegisterForm();
             RegisterScreen.Show();
-            Console.Write("owo");
-            Console.Write("uwu");
-
-        
-
-
-
 
         }
 
@@ -50,50 +44,34 @@ namespace FileManagementSystem
 
             String userName = userNameTextBox.Text;
             String password = passwordTextBox.Text;
-            userData = database.Login(userName, password);
+            this.userData = DatabaseConnection.Login(userName, password);
 
-
-
-
-
-            
-            if (database.loginSuccess == true)
+            if (userData.Length != 0)
             {
-                for (int i =0; i < userData.Count; i++)
+                for (int i = 0; i < userData.Length; i++)
                 {
-                    Console.WriteLine(userData[i]);
+                    //Console.WriteLine(userData[i]);
                 }
-                this.Close();
+                this.Hide();
             }
-
-
-
-            if (database.loginError == 1)
+            else
             {
                 userNameTextBox.BackColor = Color.Salmon;
                 passwordTextBox.BackColor = Color.Salmon;
             }
 
 
-            try
-            {
-                userAccount = new User((int)userData[0], (String)userData[1], (String)userData[2], (String)userData[3], (String)userData[4], (String)userData[6]);
-            }
-            catch (Exception c)
-            {
-                //MessageBox.Show(c.Message);
-            }
 
         }
 
 
 
-        public User pushUser()
+        public String[] PushData()
         {
-            return this.userAccount;
+
+
+            return userData;
         }
-
-
 
 
 
@@ -117,7 +95,7 @@ namespace FileManagementSystem
             {
                 Application.Exit();
             }
-            
+
         }
     }
 }

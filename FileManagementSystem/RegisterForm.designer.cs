@@ -57,6 +57,7 @@ namespace FileManagementSystem
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(321, 31);
             this.usernameTextBox.TabIndex = 0;
+            this.usernameTextBox.TextChanged += new System.EventHandler(this.usernameTextBox_TextChanged);
             // 
             // emailTextBox
             // 
@@ -153,7 +154,7 @@ namespace FileManagementSystem
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(185, 22);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(448, 51);
+            this.label7.Size = new System.Drawing.Size(228, 26);
             this.label7.TabIndex = 12;
             this.label7.Text = "Register New Account";
             // 
