@@ -35,19 +35,14 @@ namespace FileManagementSystem
 
         private void searchButton_Click(object sender, EventArgs e)
         {
-            //var files = Directory.GetFiles("C:\\DSDB", textBox1.Text, SearchOption.TopDirectoryOnly);
-            //For now we can search for specific file paths and it breaks if they are wrong
-            //We want to use the top commented line, or some variation on it, to find all the files that may fit the search and show them
-
-            try
+            DirectoryInfo currentDir = new DirectoryInfo(fileViewer.Url.AbsolutePath);//Creates DirectoryInfo from the current fileViewer path
+            FileInfo[] files = currentDir.GetFiles("*" + searchBar.Text + "*", SearchOption.AllDirectories);//creates an array of FileInfo objects by searching the currently directory and down for the text in the searchBar
+            listView.Items.Clear();//Clears the previous items from the list, would be from the previous search
+            foreach(FileInfo file in files)//For each file info, add the diretory name to the list
             {
-                fileViewer.Url = new Uri(textBox1.Text);
+                listView.Items.Add(file.DirectoryName);
             }
-            catch(Exception f)
-            {
-                MessageBox.Show(f.ToString());
-            }
-           
+            listView.Update();//Updates the view of the list once all is done
         }
 
         private void uploadButton_Click(object sender, EventArgs e)
