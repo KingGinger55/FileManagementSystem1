@@ -154,7 +154,7 @@ namespace FileManagementSystem
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(185, 22);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(228, 26);
+            this.label7.Size = new System.Drawing.Size(448, 51);
             this.label7.TabIndex = 12;
             this.label7.Text = "Register New Account";
             // 
@@ -222,7 +222,7 @@ namespace FileManagementSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 642);
+            this.ClientSize = new System.Drawing.Size(860, 753);
             this.Controls.Add(this.securityAnswerTextbox);
             this.Controls.Add(this.lastNameTextBox);
             this.Controls.Add(this.firstNameTextBox);
@@ -243,6 +243,7 @@ namespace FileManagementSystem
             this.Controls.Add(this.emailTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.Name = "RegisterForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RegisterForm";
             this.ResumeLayout(false);
             this.PerformLayout();

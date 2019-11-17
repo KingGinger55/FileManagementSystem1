@@ -107,6 +107,7 @@
             this.textBox1.Size = new System.Drawing.Size(356, 31);
             this.textBox1.TabIndex = 5;
             this.textBox1.Text = "Search by name, tag, or folder!";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // searchLabel
             // 
