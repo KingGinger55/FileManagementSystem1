@@ -91,8 +91,10 @@ public class DatabaseConnection
 
             string createUser;
 
+            int initial = initialSetup();
+
             //Empty string for the parameter accountType creates a normal user, otherwise they are the specified accountType
-            if (accountType == "")
+            if (initial >= 1)
             {
                 createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), 'user', '{securityQuestion}', '{securityQuestionAnswer}')";
@@ -100,7 +102,7 @@ public class DatabaseConnection
             else
             {
                 createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
-               $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), '{accountType}', '{securityQuestion}', '{securityQuestionAnswer}')";
+               $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), 'super admin', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
 
             ExecuteQuery(createUser, "User successfuly created!");
@@ -279,7 +281,7 @@ public class DatabaseConnection
             MessageBox.Show((String)e.Message);
         }
         databaseConnection.Close();
-        MessageBox.Show(userCount.ToString());
+        //MessageBox.Show(userCount.ToString());
         return userCount;
     }
 
