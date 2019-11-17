@@ -9,27 +9,12 @@ using MySql.Data.MySqlClient;
 /// </summary>
 public class DatabaseConnection
 {
-    //Registration fields for highlighting the registration form in th event that theres improper input. Set to 1 if theres an error.  
-   
-   
-
     public bool loginSuccess = false;
-
-
-
-
-
-
 
     // Reference to the local host
     static string mySQLConnectionString = "datasource=127.0.0.1;port=3306;username=root;password= ;database=filemanagementdatabase;";
     //Creates a database connection with mysqlconnectionstring
     static MySqlConnection databaseConnection = new MySqlConnection(mySQLConnectionString);
-
-
-
-
-
 
 
     //Updates to old code
@@ -39,7 +24,7 @@ public class DatabaseConnection
     public static String[] Login(String userName, String password)
     {
         String query;
-        int loginError = 0;
+        
 
         bool loginSuccess = false;
 
@@ -149,40 +134,26 @@ public class DatabaseConnection
         String[] authFormErrors = { userName, email, fName, lName, password, confirmPassword, securityQuestion, securityQuestionAnswer };
 
 
+        for (int i = 0; i < authFormErrors.Length; i++)
+        {
+            if (authFormErrors[i] == "")
+            {
+                fieldErrors[i] = 1;
+            }
+        }
+
         if (ValidateNewAccount(userName, email) == 1)
         {
             fieldErrors[0] = 1;
             fieldErrors[1] = 1;
         }
-        if (userName == "")
-        {
-            fieldErrors[0] = 1;
-        }
-        if (email == "")
-        {
-            fieldErrors[1] = 1;
-        }
-        if (fName == "")
-        {
-            fieldErrors[2] = 1;
-        }
-        if (lName == "")
-        {
-            fieldErrors[3] = 1;
-        }
+        
         if (password == "" || password.Length < 13 || confirmPassword == "" || confirmPassword.Length < 13 || confirmPassword != password)
         {
             fieldErrors[4] = 1;
             fieldErrors[5] = 1;
         }
-        if (securityQuestion == "")
-        {
-            fieldErrors[6] = 1;
-        }
-        if (securityQuestionAnswer == "")
-        {
-            fieldErrors[7] = 1;
-        }
+
         return fieldErrors;
     }
 
@@ -276,6 +247,23 @@ public class DatabaseConnection
 
         return containsData;
     }
+
+    ///This method is always called when a user is created.  It checks the database for user accounts, if there are none then the first user is automatically
+    ///the super admin.  This makes a manage user option available in the main menu, so that individual accounts can be deleted from the database.  This will also 
+    ///make all files navigible from the main menu, including other users files.
+    private static bool initialSetup()
+    {
+
+
+
+
+
+        return true;
+    }
+
+
+
+
 
 }
 

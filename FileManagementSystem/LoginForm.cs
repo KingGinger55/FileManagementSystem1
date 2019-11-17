@@ -91,10 +91,21 @@ namespace FileManagementSystem
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //Closes application if login screen is exited.  This is so the main menu does not load.
             if (database.loginSuccess == false)
             {
                 Application.Exit();
             }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

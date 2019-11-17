@@ -38,7 +38,16 @@ namespace FileManagementSystem
             //var files = Directory.GetFiles("C:\\DSDB", textBox1.Text, SearchOption.TopDirectoryOnly);
             //For now we can search for specific file paths and it breaks if they are wrong
             //We want to use the top commented line, or some variation on it, to find all the files that may fit the search and show them
-            fileViewer.Url = new Uri(textBox1.Text);
+
+            try
+            {
+                fileViewer.Url = new Uri(textBox1.Text);
+            }
+            catch(Exception f)
+            {
+                MessageBox.Show(f.ToString());
+            }
+           
         }
 
         private void uploadButton_Click(object sender, EventArgs e)
@@ -117,6 +126,11 @@ namespace FileManagementSystem
 
             
 
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
     }
