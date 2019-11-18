@@ -91,8 +91,10 @@ public class DatabaseConnection
 
             string createUser;
 
+            int initial = initialSetup();
+
             //Empty string for the parameter accountType creates a normal user, otherwise they are the specified accountType
-            if (accountType == "")
+            if (initial >= 1)
             {
                 createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
                $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), 'user', '{securityQuestion}', '{securityQuestionAnswer}')";
@@ -100,7 +102,7 @@ public class DatabaseConnection
             else
             {
                 createUser = "INSERT INTO `useraccount` (`uID`, `userName`, `email`, `fName`, `lName`, `password`, `accountType`, `securityQuestion`, `securityQuestionAnswer`) " +
-               $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), '{accountType}', '{securityQuestion}', '{securityQuestionAnswer}')";
+               $"VALUES (NULL, '{userName}', '{email}', '{fName}', '{lName}', AES_ENCRYPT('{password}', 'encryptKey'), 'super admin', '{securityQuestion}', '{securityQuestionAnswer}')";
             }
 
             ExecuteQuery(createUser, "User successfuly created!");
@@ -250,15 +252,37 @@ public class DatabaseConnection
 
     ///This method is always called when a user is created.  It checks the database for user accounts, if there are none then the first user is automatically
     ///the super admin.  This makes a manage user option available in the main menu, so that individual accounts can be deleted from the database.  This will also 
-    ///make all files navigible from the main menu, including other users files.
-    private static bool initialSetup()
+    ///make all files navigible from the main menu, including other users files. Returns the number of users in the DB.
+    private static int initialSetup()
     {
+        String query = "SELECT COUNT(*) FROM useraccount";
+        int userCount = 0;
 
+        MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
+        commandDatabase.CommandTimeout = 60;
 
+        try
+        {
+            databaseConnection.Open();
+            MySqlDataReader myReader = commandDatabase.ExecuteReader();
 
-
-
-        return true;
+            if (myReader.HasRows)
+            {
+                while (myReader.Read())
+                {
+                    //Console.WriteLine(myReader.GetString(0));
+                    userCount = myReader.GetInt32(0);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            MessageBox.Show((String)e.Message);
+        }
+        databaseConnection.Close();
+        //MessageBox.Show(userCount.ToString());
+        return userCount;
     }
 
 

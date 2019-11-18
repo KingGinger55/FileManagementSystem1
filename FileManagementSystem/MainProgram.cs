@@ -20,7 +20,7 @@ namespace FileManagementSystem
 
 
 
-
+            //DatabaseConnection.initialSetup();
             LoginForm login = new LoginForm();
             login.ShowDialog();
             String[] userData = login.PushData();
