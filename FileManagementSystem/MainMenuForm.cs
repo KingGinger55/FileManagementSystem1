@@ -61,7 +61,10 @@ namespace FileManagementSystem
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-            showCurrentUser();
+            //showCurrentUser();
+
+            var ProfileScreen = new ProfileForm();
+            ProfileScreen.Show();
         }
 
         public void initalizeFiles()
