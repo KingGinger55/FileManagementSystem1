@@ -11,15 +11,17 @@ using System.Windows.Forms;
 namespace FileManagementSystem
 {
     public partial class ProfileForm : Form
-    {
-        private int passwordError;
-        private int confirmPasswordError;
+    { 
 
         DatabaseConnection database = new DatabaseConnection();
+        public User userAccount;
 
-        public ProfileForm()
+        public ProfileForm(User userAccount)
         {
             InitializeComponent();
+            this.userAccount = userAccount;
+            Console.WriteLine(userAccount.userName);
+            this.Text = (userAccount.userName + "'s Profile");
         }
 
         /*private void getAccountErrors()
@@ -51,28 +53,32 @@ namespace FileManagementSystem
             String ErrorMessage = "";
             int Accepted = 0;
 
-            /*getAccountErrors();
-            if (passwordError == 1 || confirmPasswordError == 1)
-            {
-                Current.BackColor = System.Drawing.Color.Salmon;
-                retypePass.BackColor = System.Drawing.Color.Salmon;
-
-            }*/
-
             if (New.Text.Length < 13)
             {
                 ErrorMessage = ErrorMessage + "Password must be at least 14 characters.\n";
+                New.BackColor = Color.Salmon;
                 Accepted = 1;
             }
 
             if (New.Text != retypePass.Text)
             {
-                //MessageBox.Show("Passwords do not match!", "Try again");
                 ErrorMessage = ErrorMessage + "Passwords do not match!\n";
+                New.BackColor = Color.Salmon;
+                retypePass.BackColor = Color.Salmon;
                 Accepted = 1;
             }
 
-            MessageBox.Show(ErrorMessage, "Try again");
+            if (Accepted == 0 && DatabaseConnection.UpdatePassword(Current.Text, New.Text, userAccount.userName))
+            {
+
+                this.Close();
+            }
+
+            else
+            {
+                Current.BackColor = Color.Salmon;
+                MessageBox.Show(ErrorMessage + "\nIncorrect Password", "Try again");
+            }
 
         }
 
@@ -106,7 +112,8 @@ namespace FileManagementSystem
 
         private void UserName_TextChanged(object sender, EventArgs e)
         {
-
+            /*Show(userAccount.userName);*/
+            
         }
     }
 }

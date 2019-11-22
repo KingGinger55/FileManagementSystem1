@@ -36,8 +36,6 @@
             this.retypePass = new System.Windows.Forms.TextBox();
             this.Current = new System.Windows.Forms.TextBox();
             this.ConfirmNew = new System.Windows.Forms.Label();
-            this.User = new System.Windows.Forms.Label();
-            this.UserName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // NewPassword
@@ -112,30 +110,11 @@
             this.ConfirmNew.TabIndex = 17;
             this.ConfirmNew.Text = "Retype Password";
             // 
-            // User
-            // 
-            this.User.AutoSize = true;
-            this.User.Location = new System.Drawing.Point(189, 56);
-            this.User.Name = "User";
-            this.User.Size = new System.Drawing.Size(57, 25);
-            this.User.TabIndex = 18;
-            this.User.Text = "User";
-            // 
-            // UserName
-            // 
-            this.UserName.Location = new System.Drawing.Point(309, 50);
-            this.UserName.Name = "UserName";
-            this.UserName.Size = new System.Drawing.Size(417, 31);
-            this.UserName.TabIndex = 19;
-            this.UserName.TextChanged += new System.EventHandler(this.UserName_TextChanged);
-            // 
             // ProfileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(786, 600);
-            this.Controls.Add(this.UserName);
-            this.Controls.Add(this.User);
             this.Controls.Add(this.ConfirmNew);
             this.Controls.Add(this.Current);
             this.Controls.Add(this.retypePass);
@@ -161,8 +140,6 @@
         private System.Windows.Forms.TextBox retypePass;
         private System.Windows.Forms.TextBox Current;
         private System.Windows.Forms.Label ConfirmNew;
-        private System.Windows.Forms.Label User;
-        private System.Windows.Forms.TextBox UserName;
     }
 }
 
